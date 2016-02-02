@@ -1,0 +1,30 @@
+Issues:
+
+Ver 1: 2/2/2016
+
+Issue: When the Inspect Window is open, actions on the Grid are still allowed and the Inspect window remains open.
+Browsers Tested: Chrome, Firefox
+Issues in Browser: Chrome & Firefox
+Resolution Ideas: Make the Inspect Window auto close when not directly clicked.
+Fixed: No
+
+Issue: When the Inspect Window is closed the Action Menu is closed and not active for the Combatant performing the inspect action.
+Browsers Tested: Chrome, Firefox
+Issues in Browser: Chrome & Firefox
+Resolution Ideas: Add a listener to Inspection window to redisplay the Action Menu when closed.
+Fixed: No
+
+Issue: Grid sections appear as a single line in FireFox making it difficult to select sections on the grid.
+Browsers Tested: Chrome, Firefox
+Issues in Browser: Firefox
+Resolution Ideas: Add special exception to size the section accordingly or css styles that work with Firefox.
+Fixed: No
+
+Issue: It is difficult to click a grid section directly behind an item on the grid.
+Broswers Tested: Chrome, Firefox
+Issues in Broswer: Chrome & Firefox
+Resolution Ideas: Not sure yet, we could increase the size of the grid sections, and make the items on the grid not pass past
+  their hosting grid section. The only stipulation about that, is it doesn't give the effect that the items on the grid are on 
+  a horizontal plane, rather than an overhead view of the grid.
+Fixed: No
+
