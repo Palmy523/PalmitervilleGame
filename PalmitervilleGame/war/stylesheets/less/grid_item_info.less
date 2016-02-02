@@ -1,0 +1,63 @@
+@import 'main.less';
+
+@healthBarHeight: 30px;
+@nameLabelHeight: 30px;
+@width: 200px;
+@margin: 5px;
+
+.grid_item_info_panel {
+	border: solid;
+	border-color: orange;
+	height: 100px;
+	width: 300px;
+	border-collapse: separate;
+	border-spacing: 9px 1px;
+}
+
+.grid_item_info_image {
+	height: 100px;
+	width: 100px;
+	background-size: 100px 100px;
+	background-repeat: no-repeat;
+	border: solid;
+	border-color: green;
+	margin: @margin;
+}
+
+.grid_item_info_label {
+	text-align: center;
+	color: white;
+	background-color: black;
+	height: @nameLabelHeight;
+	width: @width;
+	margin: @margin;
+	vertical-align: middle;
+	line-height: @nameLabelHeight;
+}
+
+.grid_item_healthbar {
+	height: @healthBarHeight;
+	width: @width;
+	margin: @margin;
+	vertical-align: middle;
+	line-height: @healthBarHeight;
+}
+
+.grid_item_healthbar_current {
+	background-color: green;
+	height: 100%;
+}
+
+.grid_item_healthbar_removed {
+	background-color: red;
+	height: 100%;
+}
+
+.grid_item_healthbar_text {
+	height: @healthBarHeight;
+	width: 0;
+	position: absolute;
+	vertical-align: middle;
+	line-height: @healthBarHeight;
+	magrin: @margin;
+}

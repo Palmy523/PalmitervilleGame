@@ -1,0 +1,86 @@
+@import 'grid.less';
+
+@keyframes attackHighlight {
+	0% {
+		background-color: red;
+		opacity: .2;
+	}
+	50% {
+		background-color: red;
+		opacity: .8;
+	}
+	100% {
+		background-color: red;
+		opacity: .2;
+	}
+}
+
+@keyframes moveHighlight {
+	0% {
+		background-color: blue;
+		opacity: .2;
+	}
+	50% {
+		background-color: blue;
+		opacity: .8;
+	}
+	100% {
+		background-color: blue;
+		opacity: .2;
+	}
+}
+
+@keyframes inspectHighlight {
+	0% {
+		background-color: green;
+		opacity: .2;
+	}
+	50% {
+		background-color: green;
+		opacity: .8;
+	}
+	100% {
+		background-color: green;
+		opacity: .2;
+	}
+}
+
+.selection_animation {
+	animation-duration: 2s;
+	animation-iteration-count: infinite;
+}
+
+.attackHighlight {
+	animation: attackHighlight;
+	.selection_animation;
+}
+
+.moveHighlight {
+	animation: moveHighlight;
+	.selection_animation;
+}
+
+.inspectHighlight {
+	animation: inspectHighlight;
+	.selection_animation;
+}
+
+.action_highlight_attack {
+	.gridSection;
+	.attackHighlight;
+}
+
+.action_highlight_move {
+	.gridSection;
+	.moveHighlight;
+}
+
+.action_highlight_inspect {
+	.gridSection;
+	.inspectHighlight;
+}
+
+.action_notAllowed {
+	.gridSection;
+	background-color: black;	
+}

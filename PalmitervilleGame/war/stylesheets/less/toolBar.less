@@ -1,0 +1,46 @@
+@import 'main.less';
+@import 'header.less';
+
+.toolBar {
+	background-color: black;
+	width: 100%;
+	height: @toolBarHeight;
+	padding: 0px;
+	margin-bottom: 0px;
+	margin-top: @headerHeight;
+	cell-padding: 0px;
+	position: fixed;
+	.drop_Down;
+}
+
+.toolBar_content {
+	background-color: black;
+}
+
+.toolBar_item_margin {
+	margin-left: 10px;
+	margin-right: 10px;
+	margin-top: 0px;
+	margin-bottom: 0px;
+}
+
+.toolBar_item {
+	color: white;
+	font-size: 16px;
+	height: 16px;
+	font-height: 16px;
+	.toolBar_item_margin;
+	cursor: pointer;
+}
+
+.toolBar_item:hover {
+	.grow;
+}
+
+.toolBar_divider {
+	color: white;
+	font-size: 16px;
+	height: 16px;
+	font-height: 16px;
+	.toolBar_item_margin;
+}

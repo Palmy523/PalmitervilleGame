@@ -1,0 +1,166 @@
+/** Add css rules here for your application. */
+
+@headerHeight: 100px;
+@toolBarHeight: 30px;
+@footerHeight: 50px;
+
+
+@keyframes selectedGridSection {
+	from {
+		background-color: yellow;
+		border-color: lightblue}
+	to {
+		background-color: lightblue;
+		border-color: yellow;
+	}
+}
+
+@keyframes fade_in {
+	from {
+		opacity: 0%;
+	}
+	to {
+	}
+}
+
+@keyframes grow {
+	from {
+		
+	}
+	to {
+		transform: scale(1.1, 1.1);
+	}
+}
+
+@keyframes drop_Down {
+	from {
+		-ms-transform: scale(1, 0); /* IE 9 */
+    	-webkit-transform: scale(1,0); /* Safari */
+   		transform: scale(1,0);
+	}
+	to {
+		-ms-transform: scale(1, 1); /* IE 9 */
+    	-webkit-transform: scale(1, 1); /* Safari */
+    	transform: scale(1, 1);
+	}
+}
+
+td {
+	border-collapse: separate;
+}
+
+.fade_in {
+	animation-name: fade_in;
+	animation-duration: 2s;
+	animation-iteration: 1;
+}
+
+.grow {
+	transform: scale(1.1, 1.1);
+}
+
+.drop_Down {
+	animation-name: drop_Down;
+	animation-duration: .5s;
+	animation-iteration: 1;
+}
+
+.selection_border {
+	box-shadow: 2px 2px 2px gray;
+}
+
+html {
+  padding:0;
+  margin:0;
+  height:100%;
+  width: 100%;
+}
+
+body{
+  padding: 0;
+  margin: 0;
+  height: 100%;
+  width: 100%;
+}
+
+.rootPanel {
+  height: 100%;
+  width: 100%;
+  padding: 0;
+  margin: 0;
+  .fade_in;
+}
+
+.contentPanel {
+	background-color: #FFE3D1;
+	width: 100%;
+	height: 100%;
+	text-align: center;
+	padding-top: @headerHeight + @toolBarHeight;
+}
+
+
+.h1 {
+  font-size: 2em;
+  font-weight: bold;
+  color: #777777;
+  text-align: center;
+  width: 100%;
+  height: 80px;
+  padding: 0;
+  margin: 0;
+  position: absolute;
+  border: solid;
+  border-color: yellow;
+}
+
+.popupGamePanel {
+	background-color: white;
+	position: absolute;
+	transform: translate(5px, 15px);
+	box-shadow: 2px 2px 2px gray;
+}
+
+.warningLabel {
+	font-size: 24px;
+	color: red;
+}
+
+.closeButton {
+	color: black;
+	background-color: red;
+	height: 15px;
+	width: 15px;
+	padding: 2px;
+	margin: 2px;
+	font-size: 12px;
+	line-height: 8px;
+	text-align: center;
+}
+
+.menuDisplayToolbarWidget {
+	height: 30px;
+	width: 30px;
+	.selection_border;
+	left: 10px;
+	position: fixed;
+	cursor: pointer;
+	font-size: 30px;
+	text-align: center;
+	font-weight: bold;
+	z-index: 3;
+}
+
+.menuDisplayToolbarWidget:hover {
+	.grow;
+}
+
+.bufferLabel {
+	opacity: 0;
+}
+
+
+.wobble {
+	
+}
+
