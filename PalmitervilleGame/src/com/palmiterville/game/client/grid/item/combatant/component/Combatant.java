@@ -4,10 +4,10 @@ package com.palmiterville.game.client.grid.item.combatant.component;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.palmiterville.game.client.grid.component.GridCoordinates;
+import com.palmiterville.game.client.grid.component.Coordinates;
 import com.palmiterville.game.client.grid.item.action.GridItemAction;
 import com.palmiterville.game.client.grid.item.combatant.action.AttackAction;
-import com.palmiterville.game.client.grid.item.combatant.action.InspectAction;
+import com.palmiterville.game.client.grid.item.combatant.action.EndTurnAction;
 import com.palmiterville.game.client.grid.item.combatant.action.MoveAction;
 import com.palmiterville.game.client.grid.item.component.AttackableGridItem;
 import com.palmiterville.game.client.grid.item.component.DamageType;
@@ -123,9 +123,9 @@ public class Combatant extends AttackableGridItem implements Levelable,
 		setAttackPower(attackPower);
 		setExp(0);
 		actions = new ArrayList<>();
-		actions.add((GridItemAction) new AttackAction(this));
-		actions.add((GridItemAction) new InspectAction(this));
-		actions.add((GridItemAction) new MoveAction(this));
+		actions.add(new AttackAction(this));
+		actions.add(new MoveAction(this));
+		actions.add(new EndTurnAction(this));
 		setAttackRange(DEFAULT_ATTACK_RANGE);
 		scaleStats();
 	}
@@ -286,7 +286,7 @@ public class Combatant extends AttackableGridItem implements Levelable,
 	}
 
 	@Override
-	public GridCoordinates getCurrentCoordinates() {
+	public Coordinates getCurrentCoordinates() {
 		return super.getCurrentGridCoordinates();
 	}
 

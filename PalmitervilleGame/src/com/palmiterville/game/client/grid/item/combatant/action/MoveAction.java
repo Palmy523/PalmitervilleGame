@@ -11,10 +11,12 @@ import com.palmiterville.game.client.grid.item.combatant.component.Moves;
 import com.palmiterville.game.client.grid.item.component.GridItem;
 import com.palmiterville.game.client.grid.item.gui.GridItemActionMenu;
 import com.palmiterville.game.client.grid.item.gui.GridItemLabel;
-import com.palmiterville.game.client.grid.section.gui.GridSection;
+import com.palmiterville.game.client.grid.section.gui.GridSectionTemp;
 import com.palmiterville.game.client.logger.ClientLogger;
 
 public class MoveAction extends AbstractGridItemAction {
+
+	private boolean hasMovePerformed = false;
 
 	public MoveAction(GridItem item) {
 		super(item);
@@ -24,28 +26,36 @@ public class MoveAction extends AbstractGridItemAction {
 	public String getActionName() {
 		return "Move";
 	}
-	
+
 	@Override
 	public void preProcessAction(GwtEvent e) {
 		BattleController.getInstance().initiateAction(this);
 		GridItemActionMenu.hideGridItemActionMenu();
 	}
-	
+
 	@Override
 	public boolean processAction(GwtEvent e) {
-		GridItem item = this.getSource();
-		GridSection destination = this.getRecipient();
-		GridSection current = BattleGrid.getInstance().getGridSectionAt(item.getCurrentGridCoordinates());
-		GridItemLabel label = current.getAttachedGridItemLabel();
-		current.detach();
-		try {
-			destination.attachGridItem(label);
-			return true;
-		} catch (GridException e1) {
-			ClientLogger.logException(Level.WARNING, e1, 
-					"There was an error performing the 'Move' Action.");
+		if (!hasMovePerformed) { 
+			GridItem item = this.getSource();
+			GridSectionTemp destination = this.getRecipient();
+			GridSectionTemp current = BattleGrid.getInstance().getSectionAt(item.getCurrentGridCoordinates());
+			GridItemLabel label = current.getAttachedGridItemLabel();
+			current.detach();
+			try {
+				destination.attachGridItem(label);
+				hasMovePerformed = true;
+				return true;
+			} catch (GridException e1) {
+				ClientLogger.logException(Level.WARNING, e1, 
+						"There was an error performing the 'Move' Action.");
+			}
 		}
 		return false;
+	}
+	
+	@Override 
+	public void postProcessAction(GwtEvent e) {
+		hasMovePerformed = false;
 	}
 
 	@Override
@@ -80,11 +90,20 @@ public class MoveAction extends AbstractGridItemAction {
 	}
 
 	@Override
-	public boolean allowsActionOn(GridSection section) {
+	public boolean allowsActionOn(GridSectionTemp section) {
 		if (section.isOccupied()) {
 			return false;
 		}
 		return true;
+	}
+
+	@Override
+	public boolean endsTurn() {
+		return false;
+	}
+	
+	public boolean isDisabled() {
+		return hasMovePerformed;
 	}
 
 }

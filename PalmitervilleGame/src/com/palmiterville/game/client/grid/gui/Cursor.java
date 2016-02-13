@@ -1,9 +1,9 @@
 package com.palmiterville.game.client.grid.gui;
 
 import com.google.gwt.event.dom.client.KeyCodes;
-import com.palmiterville.game.client.grid.component.GridCoordinates;
-import com.palmiterville.game.client.grid.section.action.GridSectionCursorSelectionAction;
-import com.palmiterville.game.client.grid.section.gui.GridSection;
+import com.palmiterville.game.client.grid.component.Coordinates;
+import com.palmiterville.game.client.grid.section.action.SectionCursorSelectionAction;
+import com.palmiterville.game.client.grid.section.gui.Section;
 
 /**
  * This is the Cursor for the BattleGrid that performs selection of items on the grid.
@@ -15,21 +15,20 @@ public class Cursor {
 
 	public static enum CursorSelectionType {SINGLE, MULTIPLE};
 
-	private GridCoordinates selectedCoordinates;
+	private Coordinates selectedCoordinates;
 
-	private BattleGrid grid;
+	private GridPanel gridPanel;
 	private int numRows;
 	private int numCols;
 
 	/**
 	 * The owning BattleGrid to display the Cursor on.
-	 * @param grid
+	 * @param gridPanel
 	 */
-	public Cursor(BattleGrid grid) {
-		this.grid = grid;
-		numRows = grid.getGrid().getHeight();
-		numCols = grid.getGrid().getWidth();
-		setCursorCoordinates(0, 0);
+	public Cursor(GridPanel gridPanel) {
+		this.gridPanel = gridPanel;
+		numRows = gridPanel.getGrid().getHeight();
+		numCols = gridPanel.getGrid().getWidth();
 	}
 
 	/**
@@ -38,7 +37,7 @@ public class Cursor {
 	 * @param coordinates - the GridCoordinates of the GridSection to move the 
 	 * cursor to.
 	 */
-	public void setCursorCoordinates(GridCoordinates coordinates) {
+	public void setCursorCoordinates(Coordinates coordinates) {
 		this.setCursorCoordinates(coordinates.getRow(), coordinates.getColumn());
 	}
 
@@ -51,8 +50,8 @@ public class Cursor {
 	 */
 	public void setCursorCoordinates(int row, int col) {
 		if (row >= 0 && row < numRows && col >= 0 && col < numCols) {
-			GridSection section = grid.getGridSectionAt(row, col);
-			new GridSectionCursorSelectionAction(grid, section).processAction(null);;
+			Section section = gridPanel.getSectionAt(row, col);
+			new SectionCursorSelectionAction(gridPanel, section).processAction(null);;
 		}
 	}
 
@@ -63,8 +62,8 @@ public class Cursor {
 	 * @param key - the key code
 	 */
 	public void moveSelection(int key) {
-		int column = grid.getSelectedSection().getColumnIndex();
-		int rowIndex = grid.getSelectedSection().getRowIndex();
+		int column = gridPanel.getSelectedSection().getGridCoordinates().getColumn();
+		int rowIndex = gridPanel.getSelectedSection().getGridCoordinates().getColumn();
 		switch(key) {
 			case KeyCodes.KEY_UP : setCursorCoordinates(rowIndex - 1, column); break;
 			case KeyCodes.KEY_DOWN : setCursorCoordinates(rowIndex + 1, column); break;

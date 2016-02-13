@@ -1,19 +1,16 @@
 package com.palmiterville.game.client.grid.gui;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.palmiterville.game.client.grid.component.Coordinates;
 import com.palmiterville.game.client.grid.component.Grid;
-import com.palmiterville.game.client.grid.component.GridCoordinates;
 import com.palmiterville.game.client.grid.exception.GridCreationException;
 import com.palmiterville.game.client.grid.exception.GridException;
-import com.palmiterville.game.client.grid.item.action.GridItemAction;
 import com.palmiterville.game.client.grid.item.component.HasTurn;
 import com.palmiterville.game.client.grid.item.gui.GridItemLabel;
-import com.palmiterville.game.client.grid.section.gui.GridSection;
+import com.palmiterville.game.client.grid.section.gui.GridSectionTemp;
+import com.palmiterville.game.client.grid.section.gui.Section;
 
 /**
  * A widget that is a playable and interactable grid.
@@ -36,21 +33,13 @@ public class BattleGrid extends SimplePanel {
 	/**
 	 * The currently selected grid section.
 	 */
-	private GridSection selectedSection;
+	private Section selectedSection;
 	
 	/**
 	 * Boolean value for the state of the selectedSection.
 	 */
 	boolean isHighlighted;
 	
-	/**
-	 * Flag that determines the state of the BattleGrid's initiating 
-	 * action method.
-	 */
-	boolean isActionInitiating = false;
-	
-	private List<GridSection> actionAffectedSections;
-	private List<GridSection> nonAffectedSections;
 	/**
 	 * The current instance of the BattleGrid.
 	 */
@@ -77,10 +66,7 @@ public class BattleGrid extends SimplePanel {
 		this.grid = grid;
 		this.setStyleName("battleGrid");
 		createGrid();
-		setSelectedGridSection(0);
-		this.cursor = new Cursor(this);
-		actionAffectedSections = new ArrayList<>();
-		nonAffectedSections = new ArrayList<>();
+		setSelectedSection(0);
 		setInstance(this);
 	}
 	
@@ -95,9 +81,9 @@ public class BattleGrid extends SimplePanel {
 		for (int i = 0; i < grid.getHeight(); i++) {
 			tempPanel = new HorizontalPanel();
 			tempPanel.setStyleName("gridRow");
-			GridSection section;
+			Section section;
 			for (int j = 0; j < grid.getWidth(); j++) {
-				section = grid.getGridSectionAt(i, j);
+				section = grid.getSectionAt(i, j);
 				tempPanel.add(section);
 			}
 			gridPanel.add(tempPanel);
@@ -105,79 +91,28 @@ public class BattleGrid extends SimplePanel {
 		this.add(gridPanel);
 	}
 	
-	public void highlightActionSections(GridItemAction action) {
-		//If action is Integer.Max_Value return all Occupied GridSection
-		if (action.getActionRange() == Integer.MAX_VALUE) {
-			for (GridSection section : grid.getGridSectionMap().values()) {
-				if (section.isOccupied()) {
-					section.setStyleName(action.getGridSectionHighlightStyleName());
-					actionAffectedSections.add(section);
-				}
-			}
-			return;
-		}
-		
-		//Else iterate through all sections within action range
-		for (int i = 1; i <= action.getActionRange(); i++) {
-			List<GridCoordinates> affected = action.getSource().getCurrentGridCoordinates().getAdjacent(i);
-			for (GridCoordinates coordinates : affected) {
-				GridSection section = this.getGridSectionAt(coordinates);
-				if (action.allowsActionOn(section)) {
-					section.setStyleName(action.getGridSectionHighlightStyleName());
-					actionAffectedSections.add(section);
-				} else {
-					nonAffectedSections.add(section);
-					section.setStyleName("action_notAllowed");
-				}
-			}
-		}
+	public Section getSectionAt(int index) {
+		return grid.getSectionAt(index);
 	}
 	
-	public void postInitiateAction() {
-		for (GridSection section : actionAffectedSections) {
-			section.deselect();
-		}
-		for (GridSection section : nonAffectedSections) {
-			section.deselect();
-		}
-		this.actionAffectedSections.clear();
-		setIsActionInitiating(false);
+	public Section getSectionAt(int rowIndex, int columnIndex) {
+		return grid.getSectionAt(rowIndex, columnIndex);
 	}
 	
-	public List<GridSection> getActionAffectedSections() {
-		return actionAffectedSections;
+	public Section getSectionAt(Coordinates coordinates) {
+		return getSectionAt(coordinates.getRow(), coordinates.getColumn());
 	}
 	
-	public GridSection getGridSectionAt(int index) {
-		return grid.getGridSectionAt(index);
-	}
-	
-	public GridSection getGridSectionAt(int rowIndex, int columnIndex) {
-		return grid.getGridSectionAt(rowIndex, columnIndex);
-	}
-	
-	public GridSection getGridSectionAt(GridCoordinates coordinates) {
-		return getGridSectionAt(coordinates.getRow(), coordinates.getColumn());
-	}
-	
-	public void setSelectedGridSection(GridSection section) {
+	public void setSelectedSection(Section section) {
 		selectedSection = section;
 	}
 	
-	public void setSelectedGridSection(int index) {
-		setSelectedGridSection(getGridSectionAt(index));
+	public void setSelectedSection(int index) {
+		setSelectedSection(getSectionAt(index));
 	}
 	
-	public void setSelectedGridSection(int rowNum, int colNum) {
-		setSelectedGridSection(getGridSectionAt(rowNum, colNum));
-	}
-	
-	public void attachGridItemLabel(GridItemLabel item, int row, int col) throws GridException {
-		getGridSectionAt(row, col).attachGridItem(item);
-	}
-	
-	public void attachGridItemLabel(GridItemLabel label, GridCoordinates coordinates) throws GridException {
-		attachGridItemLabel(label, coordinates.getRow(), coordinates.getColumn());
+	public void setSelectedSetion(int rowNum, int colNum) {
+		setSelectedSection(getSectionAt(rowNum, colNum));
 	}
 	
 	public static void setInstance(BattleGrid grid) {
@@ -196,35 +131,9 @@ public class BattleGrid extends SimplePanel {
 		return cursor;
 	}
 	
-	/**
-	 * Initiates an action and flags the grid that an action is about to
-	 * be performed.
-	 * 
-	 * @param action - the action to initiate.
-	 */
-	public void initiateTurn(HasTurn hasTurn) {
-		GridSection section = this.getGridSectionAt(hasTurn.getCurrentCoordinates());
-		cursor.setCursorCoordinates(section.getGridCoordinates());
-	}
-	
-	public boolean isActionInitiating() {
-		return isActionInitiating;
-	}
-	
-	public void setIsActionInitiating(boolean isInitiating) {
-		this.isActionInitiating = isInitiating;
-	}
 	
 	public Grid getGrid() {
 		return grid;
-	}
-	
-	public GridSection getSelectedSection() {
-		return selectedSection;
-	}
-	
-	public void setSelectedSection(GridSection section) {
-		this.selectedSection = section;
 	}
 	
 }

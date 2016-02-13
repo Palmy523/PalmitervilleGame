@@ -4,12 +4,12 @@ import com.google.gwt.event.shared.GwtEvent;
 import com.palmiterville.game.client.controller.BattleController;
 import com.palmiterville.game.client.grid.item.component.GridItem;
 import com.palmiterville.game.client.grid.item.gui.GridItemActionMenu;
-import com.palmiterville.game.client.grid.section.gui.GridSection;
+import com.palmiterville.game.client.grid.section.gui.GridSectionTemp;
 
 public abstract class AbstractGridItemAction implements GridItemAction {
 
 	private GridItem item;
-	private GridSection recipient;
+	private GridSectionTemp recipient;
 	
 	public AbstractGridItemAction(GridItem item) {
 		this.item = item;
@@ -30,11 +30,11 @@ public abstract class AbstractGridItemAction implements GridItemAction {
 		return item;
 	}
 	
-	public GridSection getRecipient() {
+	public GridSectionTemp getRecipient() {
 		return recipient;
 	}
 	
-	public void setRecipient(GridSection recipient) {
+	public void setRecipient(GridSectionTemp recipient) {
 		this.recipient = recipient;
 	}
 	

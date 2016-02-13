@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.google.gwt.event.shared.GwtEvent;
 import com.palmiterville.game.client.grid.item.component.GridItem;
-import com.palmiterville.game.client.grid.section.gui.GridSection;
+import com.palmiterville.game.client.grid.section.gui.GridSectionTemp;
 
 public interface GridItemAction {
 	
@@ -95,18 +95,28 @@ public interface GridItemAction {
 	 * 
 	 * @return - the GridSections in the Battle Grid set to be the recipient of the action.
 	 */
-	public GridSection getRecipient();
+	public GridSectionTemp getRecipient();
 	
 	/**
 	 * Sets the recipient of the action.
 	 * @param recipient
 	 */
-	public void setRecipient(GridSection recipient);
+	public void setRecipient(GridSectionTemp recipient);
 	
 	/**
 	 * Returns whether or not the action is allowed on a GridItem.
 	 * @param item
 	 */
-	public boolean allowsActionOn(GridSection section);
+	public boolean allowsActionOn(GridSectionTemp section);
 	
+	/**
+	 * flag that sets whether performing the action ends the turn.
+	 */
+	public boolean endsTurn();
+	
+	/**
+	 * 
+	 * @return - whether or not this action should be disabled.
+	 */
+	public boolean isDisabled();
 }

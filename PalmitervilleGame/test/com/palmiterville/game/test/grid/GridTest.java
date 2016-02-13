@@ -3,9 +3,9 @@ package com.palmiterville.game.test.grid;
 import com.google.gwt.junit.client.GWTTestCase;
 import com.palmiterville.game.client.grid.GridConstants;
 import com.palmiterville.game.client.grid.component.Grid;
-import com.palmiterville.game.client.grid.component.GridCoordinates;
+import com.palmiterville.game.client.grid.component.Coordinates;
 import com.palmiterville.game.client.grid.exception.GridCreationException;
-import com.palmiterville.game.client.grid.section.gui.GridSection;
+import com.palmiterville.game.client.grid.section.gui.GridSectionTemp;
 
 
 public class GridTest extends GWTTestCase {
@@ -81,8 +81,8 @@ public class GridTest extends GWTTestCase {
 				grid.size() == 200);
 		
 		//Ensure GridCoordinates are created properly and are assigned to the proper indices
-		GridCoordinates coordinates = grid.getGridCoordinatesAt(50);
-		GridCoordinates coordinates2 = grid.getGridCoordinatesAt(97);
+		Coordinates coordinates = grid.getCoordinatesAt(50);
+		Coordinates coordinates2 = grid.getCoordinatesAt(97);
 		
 		assertTrue("Coordinate returned column " + coordinates.getColumn() + ", expected 0", 
 				coordinates.getColumn() == 0);
@@ -94,8 +94,8 @@ public class GridTest extends GWTTestCase {
 				coordinates2.getRow() == 9);
 		
 		//Ensure GridSections mapping is correct
-		GridSection section = grid.getGridSectionMap().get(coordinates);
-		GridSection section2 = grid.getGridSectionMap().get(coordinates2);
+		GridSectionTemp section = grid.getGridSectionMap().get(coordinates);
+		GridSectionTemp section2 = grid.getGridSectionMap().get(coordinates2);
 		
 		assertTrue("GridSection coords " + section.getGridCoordinates().toString() + " != " 
 				+ coordinates.toString(), section.getGridCoordinates().equals(coordinates));

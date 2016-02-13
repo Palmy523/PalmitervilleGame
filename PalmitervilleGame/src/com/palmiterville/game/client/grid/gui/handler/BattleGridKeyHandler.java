@@ -1,11 +1,12 @@
 package com.palmiterville.game.client.grid.gui.handler;
 
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyDownEvent;
+import com.google.gwt.event.dom.client.KeyEvent;
 import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.palmiterville.game.client.controller.BattleController;
 import com.palmiterville.game.client.grid.gui.BattleGrid;
+import com.palmiterville.game.client.grid.item.gui.GridItemActionMenu;
 
 public class BattleGridKeyHandler extends GridKeyHandler {
 
@@ -21,16 +22,32 @@ public class BattleGridKeyHandler extends GridKeyHandler {
 	}
 	
 	public void onKeyDown(KeyDownEvent event) {
-		GWT.log("KEY Downed");
+		//Prevent the default action from performing.
+		event.preventDefault();
 		int keyCode = event.getNativeKeyCode();
-		if (isDirectionKey(keyCode)) {
-			//Cancel the event if an action is initiating.
-			if (!battleGrid.isActionInitiating()) {
-				battleGrid.getCursor().moveSelection(keyCode);
+		
+		//If an action is processing, change the behavior of the KeyDownEvent
+		BattleController controller = BattleController.getInstance();
+		if (controller != null) {
+			if (controller.isActionInitiating()) {
+				processActionEvent(keyCode, event);
+				return;
 			}
 		}
 		
-		if (battleGrid.isActionInitiating() && keyCode == KeyCodes.KEY_ESCAPE) {
+		//Move the cursor
+		if (isDirectionKey(keyCode)) {
+			battleGrid.getCursor().moveSelection(keyCode);
+		}
+		
+		if (keyCode == KeyCodes.KEY_ESCAPE) {
+			GridItemActionMenu.hideGridItemActionMenu();
+		}
+	}
+	
+	private void processActionEvent(int keyCode, KeyDownEvent event) {
+		//Cancel the event if an action is initiating.
+		if (keyCode == KeyCodes.KEY_ESCAPE) {
 			BattleController.getInstance().cancelAction();
 		}
 	}

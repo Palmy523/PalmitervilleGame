@@ -8,7 +8,7 @@ import com.palmiterville.game.client.grid.item.component.AttackableGridItem;
 import com.palmiterville.game.client.grid.item.component.GridItem;
 import com.palmiterville.game.client.grid.item.component.GridItem.PlayerType;
 import com.palmiterville.game.client.grid.item.gui.GridItemActionMenu;
-import com.palmiterville.game.client.grid.section.gui.GridSection;
+import com.palmiterville.game.client.grid.section.gui.GridSectionTemp;
 
 /**
  * Performs an attack from a combatant to an AttackableGridItem.
@@ -18,6 +18,7 @@ import com.palmiterville.game.client.grid.section.gui.GridSection;
  */
 public class AttackAction extends AbstractGridItemAction {
 
+	public boolean hasAttackPerformed = false;
 	
 	public AttackAction(Combatant initiator) {
 		super(initiator);
@@ -39,9 +40,15 @@ public class AttackAction extends AbstractGridItemAction {
 			if (attackable.getHealth() <= 0) {
 				BattleController.getInstance().killGridItem(recipient.getCurrentGridCoordinates());
 			}
+			hasAttackPerformed = true;
 			return true;
 		}
 		return false;
+	}
+	
+	@Override
+	public void postProcessAction(GwtEvent e) {
+		hasAttackPerformed = false;
 	}
 
 	public String getActionName() {
@@ -69,7 +76,7 @@ public class AttackAction extends AbstractGridItemAction {
 	}
 
 	@Override
-	public boolean allowsActionOn(GridSection section) {
+	public boolean allowsActionOn(GridSectionTemp section) {
 		if (section.isOccupied()) {
 			GridItem source = getSource();
 			PlayerType sourceType = source.getPlayerType();
@@ -100,5 +107,15 @@ public class AttackAction extends AbstractGridItemAction {
 	@Override
 	public int getActionDuration() {
 		return 0;
+	}
+
+	@Override
+	public boolean endsTurn() {
+		return hasAttackPerformed;
+	}
+
+	@Override
+	public boolean isDisabled() {
+		return hasAttackPerformed;
 	}
 }

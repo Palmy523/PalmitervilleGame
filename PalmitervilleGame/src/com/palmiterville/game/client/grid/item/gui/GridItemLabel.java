@@ -5,13 +5,13 @@ import com.palmiterville.game.client.grid.item.component.GridItem;
 import com.palmiterville.game.client.grid.item.gui.action.DisplaySecondaryGridItemInfoAction;
 import com.palmiterville.game.client.grid.item.gui.handler.GridItemMouseOutHandler;
 import com.palmiterville.game.client.grid.item.gui.handler.GridItemMouseOverHandler;
-import com.palmiterville.game.client.grid.section.gui.GridSection;
+import com.palmiterville.game.client.grid.section.gui.GridSectionTemp;
 import com.palmiterville.game.client.grid.section.handler.CursorSelectionClickHandler;
 
 public class GridItemLabel extends Label {
 	
 	private GridItem gridItem;
-	private GridSection hostGridSection;
+	private GridSectionTemp hostGridSection;
 	
 	public GridItemLabel(GridItem gridItem) {
 		this.gridItem = gridItem;
@@ -31,11 +31,11 @@ public class GridItemLabel extends Label {
 		this.getElement().getStyle().setBackgroundImage("url('" + gridItem.getImageURL() + "')");
 	}
 	
-	public GridSection getHostingGridSection() {
+	public GridSectionTemp getHostingGridSection() {
 		return hostGridSection;
 	}
 	
-	public void setGridSection(GridSection section) {
+	public void setGridSection(GridSectionTemp section) {
 		this.hostGridSection = section;
 	}
 }

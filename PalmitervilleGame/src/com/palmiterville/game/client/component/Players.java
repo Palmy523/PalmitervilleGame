@@ -5,7 +5,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 
-import com.palmiterville.game.client.grid.component.GridCoordinates;
+import com.palmiterville.game.client.grid.component.Coordinates;
 import com.palmiterville.game.client.grid.item.component.GridItem;
 import com.palmiterville.game.client.grid.item.component.HasTurn;
 import com.palmiterville.game.client.grid.item.exception.GridItemException;
@@ -23,13 +23,13 @@ public class Players {
 	
 	//private Map<GridItem, GridItem> playerMap;
 	private Set<GridItem> players;
-	private Set<GridCoordinates> occupiedCoordinates;
+	private Set<Coordinates> occupiedCoordinates;
 	private Set<HasTurn> playersWithTurns;
 	
 	public Players() {
 		//playerMap = new HashMap<>();
 		players = new TreeSet<>();
-		occupiedCoordinates = new TreeSet<GridCoordinates>();
+		occupiedCoordinates = new TreeSet<Coordinates>();
 		playersWithTurns = new TreeSet<>();
 	}
 	

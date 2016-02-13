@@ -1,5 +1,8 @@
 package com.palmiterville.game.client.grid.item.gui;
 
+import com.google.gwt.event.logical.shared.ResizeEvent;
+import com.google.gwt.event.logical.shared.ResizeHandler;
+import com.google.gwt.user.client.Window;
 import com.palmiterville.game.client.grid.item.component.GridItem;
 import com.palmiterville.game.client.grid.item.exception.GridItemException;
 import com.palmiterville.game.client.gui.PopupGamePanel;

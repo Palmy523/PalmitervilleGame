@@ -16,9 +16,17 @@
  	width: 100%;
  	line-height: 30px;
  	vertical-align: middle;
+ 	border: solid;
+ 	border-color: black;
  }
  
  .grid_item_action_label:hover {
  	.grow;
 	box-shadow: 2px 2px 2px gray;
+ }
+ 
+ .grid_item_action_label_disabled {
+ 	.grid_item_action_label;
+ 	color: gray;
+ 	cursor: not-allowed;
  }

@@ -4,12 +4,11 @@ import com.google.gwt.core.shared.GWT;
 import com.google.gwt.event.logical.shared.ResizeEvent;
 import com.google.gwt.event.logical.shared.ResizeHandler;
 import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.user.client.ui.Widget;
 import com.palmiterville.game.client.grid.exception.GridException;
 import com.palmiterville.game.client.grid.gui.Backdrop;
-import com.palmiterville.game.client.grid.item.component.GridItem;
 
 /**
  * A Closeable PopupPanel that serves as a holder for a widget in the game. 
@@ -140,12 +139,25 @@ public class PopupGamePanel extends PopupPanel {
 			}
 		}
 		
+		
+		
 		public void enableClose(boolean enable) {
 			contentPanel.getWidget(0).setVisible(enable);
 		}
 		
+		public void add(Widget widget) {
+			contentPanel.add(widget);
+		}
 		
+		public void clear() {
+			int numberWidgets = contentPanel.getWidgetCount();
+			for (int i = 1; i < numberWidgets; i++) {
+				contentPanel.remove(i);
+			}
+		}
 		
-
+		public PopupPosition getPopupPosition() {
+			return currentPosition;
+		}
 		
 }

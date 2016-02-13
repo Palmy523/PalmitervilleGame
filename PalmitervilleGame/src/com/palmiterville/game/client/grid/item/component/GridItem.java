@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.palmiterville.game.client.grid.action.GridAction;
-import com.palmiterville.game.client.grid.component.GridCoordinates;
+import com.palmiterville.game.client.grid.component.Coordinates;
 import com.palmiterville.game.client.grid.item.gui.GridItemNameLabel;
 import com.palmiterville.game.client.grid.item.gui.GridItemPictureLabel;
 
@@ -14,7 +14,7 @@ public abstract class GridItem implements Comparable<GridItem> {
 	
 	private static final String DEFAULT_IMAGE_URL = "img/cube_combatant.png";
 	
-	private static final GridCoordinates STARTING_COORDINATES = new GridCoordinates(0, 0);
+	private static final Coordinates STARTING_COORDINATES = new Coordinates(0, 0);
 	
 	private int id;
 	private String name;
@@ -23,8 +23,8 @@ public abstract class GridItem implements Comparable<GridItem> {
 	private String imageURL;
 	private String menuImageURL;
 	private List<GridAction> actions;
-	private GridCoordinates startingCoordinates;
-	private GridCoordinates currentCoordinates;
+	private Coordinates startingCoordinates;
+	private Coordinates currentCoordinates;
 	private PlayerType playerType;
 	
 	/**
@@ -76,19 +76,19 @@ public abstract class GridItem implements Comparable<GridItem> {
 		this.actions.add(action);
 	}
 	
-	public GridCoordinates getStartingCoordinates() {
+	public Coordinates getStartingCoordinates() {
 		return startingCoordinates;
 	}
 	
-	public void setStartingCoordinates(GridCoordinates coordinates) {
+	public void setStartingCoordinates(Coordinates coordinates) {
 		this.startingCoordinates = coordinates;
 	}
 	
-	public GridCoordinates getCurrentGridCoordinates() {
+	public Coordinates getCurrentGridCoordinates() {
 		return currentCoordinates;
 	}
 	
-	public void setCurrentGridCoordinates(GridCoordinates coordinates) {
+	public void setCurrentGridCoordinates(Coordinates coordinates) {
 		this.currentCoordinates = coordinates;
 	}
 	

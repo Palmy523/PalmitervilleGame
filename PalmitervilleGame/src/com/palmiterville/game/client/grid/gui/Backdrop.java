@@ -1,5 +1,6 @@
 package com.palmiterville.game.client.grid.gui;
 
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.FocusPanel;
 import com.palmiterville.game.client.grid.gui.handler.BattleGridKeyHandler;
 import com.palmiterville.game.client.grid.item.gui.GridItemPopupPanel;
@@ -20,8 +21,9 @@ public class Backdrop extends FocusPanel {
 	
 	public void attachGrid(BattleGrid grid) {
 		this.add(grid);
-		grid.setSelectedGridSection(0);
+		grid.setSelectedSection(0);
 		this.addKeyDownHandler(new BattleGridKeyHandler(grid));
+		this.setSize(Window.getClientWidth() + "px", Window.getClientHeight() + "px");
 	}
 	
 	private void setStyles() {

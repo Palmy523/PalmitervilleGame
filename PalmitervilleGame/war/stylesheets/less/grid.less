@@ -1,86 +1,184 @@
 @import 'main.less';
 
-@bufferSize: 310px;
-@borderRadius: 2px;
-@selectionBorderRadius: 50px;
+/* http://meyerweb.com/eric/tools/css/reset/ 
+   v2.0 | 20110126
+   License: none (public domain)
+*/
 
-@keyframes highlightTurn {
-	0% {
-		background-color: rgba(0, 0, 255, .2);
-	} 
-	50% {
-		background-color: rgba(255, 255, 0, .8);
-	}
-	100% {
-		background-color: rgba(0, 0, 255, .2);
-	}
-}
-
-.highlightTurn {
-	animation: highlightTurn;
-	animation-duration: 2s;
-	animation-iteration-count: infinite;
-}
-
-.backdrop {
-	height: 720px;
-	width: 1080px;
-	background-size: cover;
-	margin: auto;
-	border: solid;
-	border-color: rgba(255, 255, 255, 0);
-	border-width: 1px;
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+	margin: 0;
 	padding: 0;
-	outline: none;
-  	-webkit-tap-highlight-color: rgba(255, 255, 255, 0); /* mobile webkit */
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure, 
+footer, header, hgroup, menu, nav, section {
+	display: block;
+}
+body {
+	line-height: 1;
+}
+ol, ul {
+	list-style: none;
+}
+blockquote, q {
+	quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+	content: '';
+	content: none;
+}
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
 }
 
-.grid {
-	height: 100%;
-	width: 100%;
+@sectionColor : rgba(255, 0, 0, .2);
+@highlightColor: rgba(255, 255, 0, .2);
+@sectionColorSquare : rgba(255, 0, 0, .2);
+@octagonSideWidth: 40px;
+//@octagonBorderWidth: sqrt((pow(@octagonSideWidth, 2)) / 2); <-- regular octagon (All equal sides)
+@octagonBorderWidth: (@octagonSideWidth) / 2; //<-- width of one side / 2 2:1 ratio.
+@octagonDiameter: @octagonSideWidth + (@octagonBorderWidth * 2);
+@octagonPadding: -(@octagonBorderWidth / 2);
+@octagonPanelSize: @octagonDiameter - @octagonBorderWidth;
+@squareSideWidth: @octagonSideWidth;
+@squarePanelSize: @octagonPanelSize;
+@squarePadding: @octagonBorderWidth / 2;
+@perspective: 6000px;
+@backgroundSize: @octagonDiameter;
+@panelSize: @octagonDiameter;
+@spaceAdjustmentFactor: 6px;
+@sectionMargin: 3px;
+
+.grid_lines_show {
+	border: .1px solid rgba(120, 120, 120, .5);
 }
 
-.battleGrid {
-	height: 712 - @bufferSize;
-	margin-top: @bufferSize;
-	width: 1080;
-	opacity: 100;
+.section_panel {
+	height: @octagonPanelSize + @sectionMargin;
+	width: @octagonPanelSize + @sectionMargin;
+	border: 2px solid gray;
 }
 
-.gridRow {
-	height: 100%;
-	width: 100%;
-	border-collapse: separate;
-	border-spacing: 4px 1px;
+.section_panel-grid_lines_show {
+	.grid_lines_show;
+	margin: 0;
 }
 
-
-.gridSection {
-	border-collapse: separate;
-	height: 100%;
-	width: 100%;
-	border: solid;
-	border-color: rgba(0, 0, 0, .05);
-	border-width: 1px;
-	border-spacing: 2px;
-	border-radius: 2px;
-	background-size: cover;
+.section_sub_panel {
+	height: @octagonPanelSize + @spaceAdjustmentFactor;
+	width: @octagonPanelSize + @spaceAdjustmentFactor;
 }
 
-
-.gridSection_selected {
-	.gridSection;
-	border: solid;
-	border-color: red;
-	border-width: 1px;
+.grid_panel {
+	margin: 10px;
+	top: 0;
+	left: 0;
+//	-webkit-transform: perspective(@perspective) rotateX(60deg);
+//	-moz-transform: perspective(@perspective) rotateX(60deg);
+//	-ms-transform: perspective(@perspective) rotateX(60deg);
+//	-o-transform: perspective(@perspective) rotateX(60deg);
+//	transform: perspective(@perspective) rotateX(60deg);
+	z-index: 0;
+	vertical-align: middle;
+	display: inline-block;
+	transition: .5s;
+	overflow: hidden;
 }
 
-.gridSection_hasTurn {
-	.gridSection;
-	.highlightTurn;
+.grid_panel p {
+	display: inline-block;
 }
 
-.gridSection_selected_hasTurn {
-	.gridSection_hasTurn;
-	.gridSection_selected;
+.octagon_panel {
+	.section_panel;
+	padding-left: -(@octagonBorderWidth);
+	padding-bottom: -(@octagonBorderWidth);
+}
+
+.octagonPadding {
+	position: relative;
+	left: @octagonPadding;
+	top: @octagonPadding;
+}
+
+.octagon {
+	height: @octagonSideWidth;
+	width: @octagonDiameter;
+	background: @sectionColor;
+	.octagonPadding;
+	
+}
+
+.octagon_hover {
+	.octagon;
+	background: @highlightColor;	
+}
+
+.octagon_top {
+	border-bottom: @octagonBorderWidth solid @sectionColor;
+	border-left: @octagonBorderWidth solid transparent;
+	border-right: @octagonBorderWidth solid transparent;
+	height: 0;
+	width: @octagonSideWidth;
+	.octagonPadding;	
+}
+
+.octagon_top_hover {
+	.octagon_top;
+	border-bottom: @octagonBorderWidth solid @highlightColor;
+	
+}
+
+.octagon_bottom {
+	border-top: @octagonBorderWidth solid @sectionColor;
+	border-left: @octagonBorderWidth solid transparent;
+	border-right: @octagonBorderWidth solid transparent;
+	height: 0;
+	width: @octagonSideWidth;
+	.octagonPadding;
+}
+
+.octagon_bottom_hover {
+	.octagon_bottom;
+	border-top: @octagonBorderWidth solid @highlightColor;
+}
+
+.square {
+	height: @squareSideWidth;
+	width: @squareSideWidth;
+	background-color: @sectionColorSquare;
+	position: relative;
+	left: @squarePadding;
+	top: @squarePadding;
+}
+
+.square:hover {
+	height: @squareSideWidth;
+	width: @squareSideWidth;
+	background-color: @highlightColor;
+	position: relative;
+	left: @squarePadding;
+	top: @squarePadding;
+}
+
+.unmoveable {
+	.section_sub_panel;
 }

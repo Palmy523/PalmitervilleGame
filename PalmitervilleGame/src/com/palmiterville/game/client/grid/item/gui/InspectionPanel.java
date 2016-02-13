@@ -13,7 +13,6 @@ public class InspectionPanel extends PopupGamePanel {
 	public InspectionPanel() {
 		super();
 		content = new HorizontalPanel();
-		this.add(content);
 		this.enableClose(true);
 		setInstance(this);
 	}
@@ -22,6 +21,9 @@ public class InspectionPanel extends PopupGamePanel {
 		content.clear();
 		content.add(new GridItemInfoPanel(primary));
 		content.add(new GridItemInfoPanel(compareTo));
+		this.add(content);
+		setVisible(true);
+		this.setAutoHideEnabled(true);
 		this.center();
 	}
 	

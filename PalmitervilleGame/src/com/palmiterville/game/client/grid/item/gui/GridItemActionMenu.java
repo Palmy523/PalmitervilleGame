@@ -4,18 +4,21 @@ import java.util.List;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.logical.shared.ResizeEvent;
+import com.google.gwt.event.logical.shared.ResizeHandler;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
-import com.palmiterville.game.client.grid.action.GridAction;
+import com.palmiterville.game.client.controller.BattleController;
 import com.palmiterville.game.client.grid.item.action.GridItemAction;
 import com.palmiterville.game.client.grid.item.combatant.component.PerformsActions;
 import com.palmiterville.game.client.grid.item.component.GridItem;
 
 public class GridItemActionMenu extends VerticalPanel {
 	
-	private static int DEFAULT_MENU_WIDTH = 200;
 	private List<GridItemAction> actions;
 	private static GridItemPopupPanel instance;
+	private static GridItemLabel currentlyDisplayedLabel;
 	
 	public GridItemActionMenu(List<GridItemAction> actions) {
 		super();
@@ -27,16 +30,34 @@ public class GridItemActionMenu extends VerticalPanel {
 	public void initComponents() {
 		for (final GridItemAction action : actions) {
 			Label actionLabel = new Label(action.getActionName());
-			actionLabel.setStyleName("grid_item_action_label");
-			actionLabel.addClickHandler(new ClickHandler() {
+			
+			if (action.isDisabled()) {
+				actionLabel.setStyleName("grid_item_action_label_disabled");
+			} else {
+				actionLabel.setStyleName("grid_item_action_label");
+				actionLabel.addClickHandler(new ClickHandler() {
+					
+					@Override
+					public void onClick(ClickEvent event) {
+						action.preProcessAction(event);
+					}
+					
+				});
+			}
+			
+			this.add(actionLabel);
+			Window.addResizeHandler(new ResizeHandler() {
 
 				@Override
-				public void onClick(ClickEvent event) {
-					action.preProcessAction(event);
+				public void onResize(ResizeEvent event) {
+					if (instance != null && !BattleController.getInstance().isActionInitiating()) {
+						if (instance.getPopupPosition() == null) {
+							GridItemActionMenu.displayGridItemActionMenu(currentlyDisplayedLabel);
+						}
+					}
 				}
 				
 			});
-			this.add(actionLabel);
 		}
 	}
 	
@@ -47,10 +68,12 @@ public class GridItemActionMenu extends VerticalPanel {
 	 * @param label
 	 */
 	public static void displayGridItemActionMenu(GridItemLabel label) {
+		hideGridItemActionMenu();
 		instance = getInstance();
 		if (label == null) {
 			return;
 		}
+		currentlyDisplayedLabel = label;
 		GridItem item = label.getGridItem();
 		if (item instanceof PerformsActions) {
 			PerformsActions performsAction = (PerformsActions) item;
@@ -74,6 +97,6 @@ public class GridItemActionMenu extends VerticalPanel {
 	}
 	
 	public void setInstance(GridItemPopupPanel instance) {
-		this.instance = instance;
+		GridItemActionMenu.instance = instance;
 	}
 }

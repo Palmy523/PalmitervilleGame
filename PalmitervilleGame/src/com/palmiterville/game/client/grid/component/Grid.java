@@ -1,11 +1,7 @@
 package com.palmiterville.game.client.grid.component;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import com.palmiterville.game.client.grid.GridConstants;
 import com.palmiterville.game.client.grid.exception.GridCreationException;
-import com.palmiterville.game.client.grid.section.gui.GridSection;
 
 /**
  * Class used to represent a rectangular grid as a width (number
@@ -39,12 +35,6 @@ public class Grid {
 	 * row in a grid.
 	 */
 	private int height;
-	
-	/**
-	 * A mapping of Coordinates and the appropriate GridSection for
-	 * that coordinate.
-	 */
-	private Map<GridCoordinates, GridSection> gridSectionMap;
 	
 	/**
 	 * Creates the default size Grid.
@@ -94,28 +84,6 @@ public class Grid {
 		//******************************INITIALIZE******************************//
 		this.width = width;
 		this.height = height;
-		gridSectionMap = new HashMap<>();
-		
-		//Create Grid
-		createGrid();
-	}
-	
-	/**
-	 * Creates the Grid by creating a GridSection for each cell in
-	 * the Grid and assigning to the gridSectionMap. Each GridSection is
-	 * accessed by GridCoordinates that represent the row and column 
-	 * location in the grid.
-	 */
-	private void createGrid() {
-		GridCoordinates coordinates;
-		GridSection section;
-		for (int i = 0; i < height; i++) {
-			for (int j = 0; j < width; j++) {
-				coordinates = new GridCoordinates(i, j);
-				section = new GridSection(coordinates);
-				gridSectionMap.put(coordinates, section);
-			}
-		}
 	}
 	
 	/**
@@ -134,28 +102,12 @@ public class Grid {
 		return height;
 	}
 	
-	public GridSection getGridSectionAt(int rowIndex, int columnIndex) {
-		return gridSectionMap.get(new GridCoordinates(rowIndex, columnIndex));
-	}
-	
-	public GridCoordinates getGridCoordinatesAt(int index) {
+	public Coordinates getCoordinatesAt(int index) {
 		int row = index / height;
 		int column = index - (row * height);
-		return new GridCoordinates(row, column);
+		return new Coordinates(row, column);
 	}
-	
-	public GridSection getGridSectionAt(int index) {
-		return gridSectionMap.get(getGridCoordinatesAt(index));
-	}
-	
-	/**
-	 * 
-	 * @return - the grid map.
-	 */
-	public Map<GridCoordinates, GridSection> getGridSectionMap() {
-		return gridSectionMap;
-	}
-	
+
 	/**
 	 * 
 	 * @return - the size of the grid, represents the number of

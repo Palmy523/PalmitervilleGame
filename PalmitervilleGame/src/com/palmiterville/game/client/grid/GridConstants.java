@@ -1,7 +1,7 @@
 package com.palmiterville.game.client.grid;
 
-import com.palmiterville.game.client.grid.component.GridCoordinates;
-import com.palmiterville.game.client.grid.section.gui.GridSection;
+import com.palmiterville.game.client.grid.component.Coordinates;
+import com.palmiterville.game.client.grid.section.gui.GridSectionTemp;
 
 
 public class GridConstants {
@@ -10,6 +10,9 @@ public class GridConstants {
 		throw new UnsupportedOperationException("Class is not meant to be "
 				+ "instantiated.");
 	}
+	
+	public static enum Direction{NORTH, SOUTH, EAST, WEST, 
+			NORTHWEST, NORTHEAST, SOUTHWEST, SOUTHEAST};
 
 	/**-
 	 * App constant for maximum grid creation height, if the number
@@ -39,11 +42,11 @@ public class GridConstants {
 	 */
 	public static final int ROW_MULTIPLIER = 1000;
 	
-	public static int getGridSectionValue(GridSection section) {
+	public static int getGridSectionValue(GridSectionTemp section) {
 		return getCoordinateValue(section.getGridCoordinates());
 	}
 	
-	public static int getCoordinateValue(GridCoordinates coordinate) {
+	public static int getCoordinateValue(Coordinates coordinate) {
 		return getRowColumnValue(coordinate.getRow(), coordinate.getColumn());
 	}
 	

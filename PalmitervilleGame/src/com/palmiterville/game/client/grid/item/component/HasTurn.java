@@ -1,6 +1,6 @@
 package com.palmiterville.game.client.grid.item.component;
 
-import com.palmiterville.game.client.grid.component.GridCoordinates;
+import com.palmiterville.game.client.grid.component.Coordinates;
 
 /**
  * Interface for handling turn based combat.
@@ -69,6 +69,6 @@ public interface HasTurn {
 	/**
 	 * the current coordinates of the object that implements this interface.
 	 */
-	GridCoordinates getCurrentCoordinates();
+	Coordinates getCurrentCoordinates();
 	
 }
